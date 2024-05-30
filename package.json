@@ -1,6 +1,6 @@
 {
-  "name": "auto_order",
-  "version": "1.0.0",
+  "name": "hybrid_order",
+  "version": "1.0.3",
   "description": "tool for employees to streamline the ordering process",
   "main": "src/main.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "electron-builder": "^24.4.0"
   },
   "build": {
-    "appId": "com.example.autoorder",
+    "appId": "com.example.hybridorder",
     "files": [
       "dist/**/*",
       "src/**/*"
