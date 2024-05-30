@@ -5,9 +5,9 @@ document
     event.preventDefault();
 
     const vendor = document.getElementById("vendor").value.toUpperCase().trim();
-    const storeNumber = document.getElementById("storeNumber").value.trim();
-    const itemNumber = document.getElementById("itemNumber").value.trim();
     const poNumber = document.getElementById("poNumber").value.trim();
+    const storeNumber = poNumber.split("-")[0]
+    const itemNumber = document.getElementById("itemNumber").value.trim();
     const quantity = document.getElementById("quantity").value.trim();
 
     await window.electronAPI.runAutomation({

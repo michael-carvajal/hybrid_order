@@ -5,3 +5,7 @@ form {
     max-width: 20rem;
     margin: 10px auto;
 }
+
+#submit {
+    margin-top: 42px;
+}
