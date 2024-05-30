@@ -19,7 +19,8 @@ document
     });
   });
 
-document.getElementById("reset-button").addEventListener("click", async () => {
+document.getElementById("reset-button").addEventListener("click", async (event) => {
+  event.preventDefault()
   document.getElementById("order-form").reset();
   console.log('reset button cliked');
   await window.electronAPI.resetAutomation();
