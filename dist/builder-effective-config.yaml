@@ -1,0 +1,15 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.example.autoorder
+files:
+  - filter:
+      - dist/**/*
+      - src/**/*
+mac:
+  category: public.app-category.utilities
+win:
+  target: nsis
+linux:
+  target: AppImage
+electronVersion: 30.0.8

@@ -1,0 +1,32 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Order Automation</title>
+    <link rel="stylesheet" href="main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <form id="order-form">
+      <label for="vendor">Vendor:</label>
+      <input type="text" id="vendor" name="vendor" />
+      <label for="storeNumber">Store Number:</label>
+      <input type="text" id="storeNumber" name="storeNumber" />
+      <label for="itemNumber">Item Number:</label>
+      <input type="text" id="itemNumber" name="itemNumber" />
+      <label for="poNumber">PO Number:</label>
+      <input type="text" id="poNumber" name="poNumber" />
+      <label for="quantity">Quantity:</label>
+      <input type="text" id="quantity" name="quantity" />
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <button class="btn btn-danger" id="reset-button">Reset</button>
+    </form>
+    <script src="renderer.js"></script>
+  </body>
+</html>
