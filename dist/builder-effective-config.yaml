@@ -1,7 +1,7 @@
 directories:
   output: dist
   buildResources: build
-appId: com.example.autoorder
+appId: com.example.hybridorder
 files:
   - filter:
       - dist/**/*
