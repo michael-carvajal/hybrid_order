@@ -1,4 +1,6 @@
-{
+const getStoreId = (storeNumber) => storeData[storeNumber];
+
+const storeData = {
   "1": 340173,
   "2": 340163,
   "3": 353346,
@@ -1886,3 +1888,5 @@
   "3148": 406264,
   "3136": 406266
 }
+
+module.exports = getStoreId;
