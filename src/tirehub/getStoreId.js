@@ -1,4 +1,4 @@
-const getStoreId = (storeNumber) => storeData[storeNumber];
+const getStoreId = (storeNumber) => String((storeData[storeNumber]));
 
 const storeData = {
   "1": 340173,
