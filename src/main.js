@@ -7,6 +7,7 @@ const orderFromATD = require("./atd/index.js");
 const orderFromMFI = require("./mfi/index.js");
 const orderFromUSA = require("./usa/index.js");
 const orderFromNTW = require("./ntw/index.js");
+const orderFromTirehub = require("./tirehub/index.js");
 let mainWindow;
 let browser;
 let page;
@@ -118,6 +119,22 @@ ipcMain.handle("run-automation", async (event, args) => {
       username = decryptedValues.NTW_USERNAME;
       password = decryptedValues.NTW_PASSWORD;
       await orderFromNTW(
+        page,
+        websiteUrl,
+        storeNumber,
+        itemNumber,
+        quantity,
+        username,
+        password,
+        poNumber
+      );
+
+      break;
+    case "TIREHUB":
+      websiteUrl = decryptedValues.TIREHUB_URL;
+      username = decryptedValues.TIREHUB_USERNAME;
+      password = decryptedValues.TIREHUB_PASSWORD;
+      await orderFromTirehub(
         page,
         websiteUrl,
         storeNumber,
