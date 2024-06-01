@@ -47,7 +47,11 @@ async function orderFromTirehub(
     await storeInput.waitFor({ state: "visible" });
     await storeInput.fill(storeId);
     await page.locator(".store-item__action a").click();
+    const quantityInputs = await page.getByPlaceholder("QTY").all();
+    await quantityInputs[0].scrollIntoViewIfNeeded().fill(quantity);
+    await page.keyboard.press("Enter");
 
+    await page.locator(".primary-btn.medium").click();
     await page.fill("#customerPO", poNumber);
     // Wait for the confirmation page to load
     await page.waitForSelector(".order-confirmation-message strong"); // Replace with the actual selector for the confirmation number
