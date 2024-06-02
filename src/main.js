@@ -71,7 +71,7 @@ ipcMain.handle("run-automation", async (event, args) => {
   const decryptedValues = decryptHashedValues(hashedData, iv, key);
   // console.log("Decrypted Values:", decryptedValues);
 
-  const { vendor, storeNumber, itemNumber, poNumber, quantity } = args;
+  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
   let websiteUrl, username, password;
   console.log(vendor, storeNumber, itemNumber, poNumber, quantity);
   switch (vendor) {
@@ -87,7 +87,8 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
       break;
 
