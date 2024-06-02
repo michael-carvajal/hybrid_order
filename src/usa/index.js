@@ -28,7 +28,8 @@ async function orderFromUSA(
   quantity,
   username,
   password,
-  poNumber
+  poNumber,
+  pickup
 ) {
   await page.goto(url);
   await login(username, password, page);
@@ -43,17 +44,22 @@ async function orderFromUSA(
 
   await searchForItem(page, itemNumber, quantity);
   await page.fill("#inputPurchaseOrder", poNumber);
+  if (pickup === "true") {
+    await page.getByLabel("Open").nth(1).click();
+    await page
+      .getByRole("option", { name: "​ Pick up Local Warehouse" })
+      .click();
+  }
 
   try {
     // Wait for the confirmation page to load
     await page.waitForSelector("div p.text-green.pl-2"); // Replace with the actual selector for the confirmation number
     await page.waitForSelector("div.flex p span.block"); // Replace with the actual selector for the confirmation number
-    
 
     // Extract the confirmation number
     const confirmationNumber = await page.textContent("div p.text-green.pl-2"); // Replace with the actual selector for the confirmation number
     const price = await page.textContent("div.flex p span.block"); // Replace with the actual selector for the confirmation number
-    console.log(confirmationNumber, " -- $", price.slice(1)) ;
+    console.log(confirmationNumber, " -- $", price.slice(1));
   } catch (error) {
     console.log(error);
   }
