@@ -30,6 +30,24 @@ async function searchForStore(page, storeNumber) {
   await storeInput.fill(storeId);
   await page.locator(".store-item__action a").click();
 }
+
+async function insertQuantity(page, quantity) {
+  try {
+    const quantityInputs = await page.getByPlaceholder("QTY").all();
+    if (quantityInputs.length === 0) {
+      throw new Error("Quantity input not found");
+    }
+
+    await quantityInputs[0].scrollIntoViewIfNeeded();
+    await quantityInputs[0].focus();
+    await quantityInputs[0].fill(""); // Clear any existing value
+    await quantityInputs[0].type(quantity); // Use .type() instead of .fill()
+    await page.keyboard.press("Enter");
+  } catch (error) {
+    console.error("Error in orderFromTirehub:", error);
+  }
+}
+
 async function orderFromTirehub(
   page,
   url,
@@ -45,9 +63,7 @@ async function orderFromTirehub(
   try {
     await searchForItem(page, itemNumber, quantity);
     await searchForStore(page, storeNumber);
-    const quantityInputs = await page.getByPlaceholder("QTY").all();
-    await quantityInputs[0].scrollIntoViewIfNeeded().fill(quantity);
-    await page.keyboard.press("Enter");
+    await insertQuantity(page, quantity);
 
     await page.locator(".primary-btn.medium").click();
     await page.fill("#customerPO", poNumber);
