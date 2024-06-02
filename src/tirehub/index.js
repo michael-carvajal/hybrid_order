@@ -17,13 +17,19 @@ async function searchForItem(page, itemNumber, quantity) {
   await itemInput.waitFor({ state: "visible" });
   await itemInput.fill(itemNumber);
   await page.keyboard.press("Enter");
-  //   await page.getByRole("textbox", { name: "Qty" }).fill(quantity);
-  //   console.log("we found qty");
-  //   const addToCart = await page.getByText(" Add to cart ").all();
-  //   await addToCart[1].click();
-  //   console.log("add to cart");
 }
+async function searchForStore(page, storeNumber) {
+  let storeId;
 
+  storeId = getStoreId(storeNumber);
+  const changeStore = await page.getByRole("link", { name: "Change" });
+  await changeStore.waitFor({ state: "visible" });
+  await changeStore.click();
+  const storeInput = await page.getByPlaceholder("Store Search");
+  await storeInput.waitFor({ state: "visible" });
+  await storeInput.fill(storeId);
+  await page.locator(".store-item__action a").click();
+}
 async function orderFromTirehub(
   page,
   url,
@@ -36,17 +42,9 @@ async function orderFromTirehub(
 ) {
   await page.goto(url);
   await login(username, password, page);
-  let storeId;
   try {
     await searchForItem(page, itemNumber, quantity);
-    storeId = getStoreId(storeNumber);
-    const changeStore = await page.getByRole("link", { name: "Change" });
-    await changeStore.waitFor({ state: "visible" });
-    await changeStore.click();
-    const storeInput = await page.getByPlaceholder("Store Search");
-    await storeInput.waitFor({ state: "visible" });
-    await storeInput.fill(storeId);
-    await page.locator(".store-item__action a").click();
+    await searchForStore(page, storeNumber);
     const quantityInputs = await page.getByPlaceholder("QTY").all();
     await quantityInputs[0].scrollIntoViewIfNeeded().fill(quantity);
     await page.keyboard.press("Enter");
