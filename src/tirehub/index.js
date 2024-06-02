@@ -11,41 +11,27 @@ async function login(username, password, page) {
 }
 
 async function searchForItem(page, itemNumber, quantity) {
-  const itemInput = await page.getByPlaceholder(
-    "Search for Size and Brand, Model etc. or Item #"
-  );
-  await itemInput.waitFor({ state: "visible" });
-  await itemInput.fill(itemNumber);
-  await page.keyboard.press("Enter");
+  await page.getByText("Search for Size and Brand,").click();
+  await page.getByPlaceholder("Search for Size and Brand,").fill(itemNumber);
+  await page.getByPlaceholder("Search for Size and Brand,").press("Enter");
+  
 }
 async function searchForStore(page, storeNumber) {
   let storeId;
 
   storeId = getStoreId(storeNumber);
-  const changeStore = await page.getByRole("link", { name: "Change" });
-  await changeStore.waitFor({ state: "visible" });
-  await changeStore.click();
-  const storeInput = await page.getByPlaceholder("Store Search");
-  await storeInput.waitFor({ state: "visible" });
-  await storeInput.fill(storeId);
-  await page.locator(".store-item__action a").click();
+  await page.getByRole("link", { name: "Change" }).click();
+  await page.getByPlaceholder("Store Search").click();
+  await page.getByPlaceholder("Store Search").fill(storeId);
+  await page.getByText("Choose", { exact: true }).click();
+
 }
 
 async function insertQuantity(page, quantity) {
-  try {
-    const quantityInputs = await page.getByPlaceholder("QTY").all();
-    if (quantityInputs.length === 0) {
-      throw new Error("Quantity input not found");
-    }
-
-    await quantityInputs[0].scrollIntoViewIfNeeded();
-    await quantityInputs[0].focus();
-    await quantityInputs[0].fill(""); // Clear any existing value
-    await quantityInputs[0].type(quantity); // Use .type() instead of .fill()
-    await page.keyboard.press("Enter");
-  } catch (error) {
-    console.error("Error in orderFromTirehub:", error);
-  }
+  await page.getByRole("textbox", { name: "QTY" }).click();
+  await page.getByRole("textbox", { name: "QTY" }).fill(quantity);
+  await page.getByRole("textbox", { name: "QTY" }).press("Enter");
+  await page.getByRole("button", { name: "Checkout" }).click();
 }
 
 async function orderFromTirehub(
@@ -60,24 +46,31 @@ async function orderFromTirehub(
 ) {
   await page.goto(url);
   await login(username, password, page);
-  try {
-    await searchForItem(page, itemNumber, quantity);
-    await searchForStore(page, storeNumber);
-    await insertQuantity(page, quantity);
+  await searchForStore(page, storeNumber) 
+  await searchForItem(page, itemNumber, quantity)
+  await insertQuantity(page, quantity) 
+  
+  
+  await page.getByPlaceholder("PO Number (optional)").click();
+  await page.getByPlaceholder("PO Number (optional)").fill(poNumber);
+  // try {
+  //   await searchForItem(page, itemNumber, quantity);
+  //   await searchForStore(page, storeNumber);
+  //   await insertQuantity(page, quantity);
 
-    await page.locator(".primary-btn.medium").click();
-    await page.fill("#customerPO", poNumber);
-    // Wait for the confirmation page to load
-    await page.waitForSelector(".order-confirmation-message strong"); // Replace with the actual selector for the confirmation number
+  //   await page.locator(".primary-btn.medium").click();
+  //   await page.fill("#customerPO", poNumber);
+  //   // Wait for the confirmation page to load
+  //   await page.waitForSelector(".order-confirmation-message strong"); // Replace with the actual selector for the confirmation number
 
-    // Extract the confirmation number
-    const confirmationNumber = await page.textContent(
-      ".order-confirmation-message strong"
-    ); // Replace with the actual selector for the confirmation number
-    console.log(confirmationNumber);
-  } catch (error) {
-    console.log(error);
-  }
+  //   // Extract the confirmation number
+  //   const confirmationNumber = await page.textContent(
+  //     ".order-confirmation-message strong"
+  //   ); // Replace with the actual selector for the confirmation number
+  //   console.log(confirmationNumber);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 module.exports = orderFromTirehub;
