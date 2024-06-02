@@ -9,7 +9,7 @@ document
     const storeNumber = poNumber.split("-")[0];
     const itemNumber = document.getElementById("itemNumber").value.trim();
     const quantity = document.getElementById("quantity").value.trim();
-    const pickup = document.getElementById("pickup").value();
+    const pickup = document.getElementById("pickup").value;
 
     await window.electronAPI.runAutomation({
       vendor,

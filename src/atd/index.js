@@ -28,7 +28,8 @@ async function orderFromATD(
   quantity,
   username,
   password,
-  poNumber
+  poNumber,
+  pickup
 ) {
   await page.goto(url);
   await login(username, password, page);
@@ -41,6 +42,11 @@ async function orderFromATD(
 
     await searchForItem(page, itemNumber, quantity);
     await page.fill("#customerPO", poNumber);
+    if (pickup === "true") {
+      await page.getByText("Customer Pickup").click();
+    } else {
+    }
+
     // Wait for the confirmation page to load
     await page.waitForSelector(".order-confirmation-message strong"); // Replace with the actual selector for the confirmation number
 
