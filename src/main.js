@@ -104,7 +104,8 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
 
       break;
@@ -120,7 +121,8 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
 
       break;
@@ -136,7 +138,8 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
 
       break;
@@ -152,7 +155,8 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
 
       break;
