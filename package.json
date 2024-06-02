@@ -9,10 +9,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dist": "electron-builder"
   },
-  "author": "",
+  "author": "Michael Carvajal",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "electron-context-menu": "^4.0.0",
     "electron-squirrel-startup": "^1.0.1",
     "playwright": "^1.44.1",
     "prompt-sync": "^4.2.0"
