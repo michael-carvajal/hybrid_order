@@ -8,6 +8,15 @@ const orderFromMFI = require("./mfi/index.js");
 const orderFromUSA = require("./usa/index.js");
 const orderFromNTW = require("./ntw/index.js");
 const orderFromTirehub = require("./tirehub/index.js");
+// Use dynamic import for ES module
+(async () => {
+  const contextMenu = (await import("electron-context-menu")).default;
+
+  contextMenu({
+    labels: { copy: "Copy", paste: "Paste" },
+  });
+})();
+
 let mainWindow;
 let browser;
 let page;
