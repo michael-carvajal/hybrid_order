@@ -17,7 +17,7 @@ document
       itemNumber,
       poNumber,
       quantity,
-      pickup
+      pickup,
     });
   });
 
@@ -26,6 +26,9 @@ document
   .addEventListener("click", async (event) => {
     event.preventDefault();
     document.getElementById("order-form").reset();
+    pickup.value = "false";
+    truckIcon.style.display = "inline";
+    personIcon.style.display = "none";
     console.log("reset button cliked");
     await window.electronAPI.resetAutomation();
   });
@@ -42,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function () {
       truckIcon.style.display = "none";
       personIcon.style.display = "inline";
     } else {
-      // Pick up is false (delivery)
       pickup.value = "false";
       truckIcon.style.display = "inline";
       personIcon.style.display = "none";
