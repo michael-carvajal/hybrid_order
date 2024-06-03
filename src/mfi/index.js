@@ -21,7 +21,8 @@ async function orderFromMFI(
   quantity,
   username,
   password,
-  poNumber
+  poNumber,
+  pickup
 ) {
   await page.goto(url);
   await login(username, password, page);
@@ -38,6 +39,11 @@ async function orderFromMFI(
   await page
     .locator("#cHeaderLoggedIn_divReturnRequestDesktop + .other .cart.active")
     .click();
+
+
+    if (pickup === "true") {
+      await page.locator("#WillcallP").click()
+    }
   await page.locator("#divCheckOut").click();
 
   await page.locator(".inner div span input").fill(poNumber);

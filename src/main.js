@@ -8,7 +8,7 @@ const orderFromMFI = require("./mfi/index.js");
 const orderFromUSA = require("./usa/index.js");
 const orderFromNTW = require("./ntw/index.js");
 const orderFromTirehub = require("./tirehub/index.js");
-// Use dynamic import for ES module
+
 (async () => {
   const contextMenu = (await import("electron-context-menu")).default;
 
@@ -34,12 +34,11 @@ async function createWindow() {
 
   mainWindow.loadFile("./dist/index.html");
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
 }
+
 app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
@@ -57,7 +56,11 @@ app.on("activate", async () => {
 
 ipcMain.handle("run-automation", async (event, args) => {
   if (browser) {
-    await browser.close();
+    try {
+      await browser.close();
+    } catch (error) {
+      console.error("Error closing previous browser instance:", error);
+    }
   }
 
   browser = await chromium.launch({ headless: false });
@@ -67,13 +70,12 @@ ipcMain.handle("run-automation", async (event, args) => {
     return crypto.pbkdf2Sync(password, salt, iterations, keylen, "sha256");
   }
 
-  const key = deriveKey("juan_rocks_123", "salt", 100000, 32); // Adjust salt and iterations as needed
+  const key = deriveKey("juan_rocks_123", "salt", 100000, 32);
   const decryptedValues = decryptHashedValues(hashedData, iv, key);
-  // console.log("Decrypted Values:", decryptedValues);
 
-  const { vendor, storeNumber, itemNumber, poNumber, quantity } = args;
+  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
   let websiteUrl, username, password;
-  console.log(vendor, storeNumber, itemNumber, poNumber, quantity);
+
   switch (vendor) {
     case "ATD":
       websiteUrl = decryptedValues.ATD_URL;
@@ -87,10 +89,10 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
       break;
-
     case "MFI":
       websiteUrl = decryptedValues.MFI_URL;
       username = decryptedValues.MFI_USERNAME;
@@ -103,9 +105,9 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
-
       break;
     case "USA":
       websiteUrl = decryptedValues.USA_URL;
@@ -119,9 +121,9 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
-
       break;
     case "NTW":
       websiteUrl = decryptedValues.NTW_URL;
@@ -135,9 +137,9 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
-
       break;
     case "TIREHUB":
       websiteUrl = decryptedValues.TIREHUB_URL;
@@ -151,21 +153,23 @@ ipcMain.handle("run-automation", async (event, args) => {
         quantity,
         username,
         password,
-        poNumber
+        poNumber,
+        pickup
       );
-
       break;
-
     default:
       console.log("Invalid vendor. Please choose either 'ATD' or 'other'.");
       throw new Error("Invalid vendor");
-      break;
   }
 });
 
 ipcMain.handle("reset-automation", async (event) => {
   if (browser) {
-    await browser.close();
-    browser = null;
+    try {
+      await browser.close();
+      browser = null;
+    } catch (error) {
+      console.error("Error closing browser during reset:", error);
+    }
   }
 });

@@ -1,11 +1,11 @@
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-width: 20rem;
-    margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 20rem;
+  margin: 10px auto;
 }
 
 #submit {
-    margin-top: 42px;
+  margin-top: 36px;
 }
