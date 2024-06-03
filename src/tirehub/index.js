@@ -14,7 +14,6 @@ async function searchForItem(page, itemNumber) {
   await page.getByText("Search for Size and Brand,").click();
   await page.getByPlaceholder("Search for Size and Brand,").fill(itemNumber);
   await page.getByPlaceholder("Search for Size and Brand,").press("Enter");
-  
 }
 async function searchForStore(page, storeNumber) {
   let storeId;
@@ -23,19 +22,20 @@ async function searchForStore(page, storeNumber) {
   await page.getByRole("link", { name: "Change" }).click();
   await page.getByPlaceholder("Store Search").click();
   await page.getByPlaceholder("Store Search").fill(storeId);
-  
+
   const chooseButton = await page.getByText("Choose", { exact: true });
 
   // Check if the button has the class "disabled"
-  const isDisabled = await chooseButton.evaluate(button => button.classList.contains('disabled'));
+  const isDisabled = await chooseButton.evaluate((button) =>
+    button.classList.contains("disabled")
+  );
   console.log(chooseButton, isDisabled);
   if (isDisabled) {
-    await page.locator("#modal-template .header-content button").click()
+    await page.locator("#modal-template .header-content button").click();
   } else {
     await chooseButton.click();
   }
 }
-
 
 async function insertQuantity(page, quantity) {
   await page.getByRole("textbox", { name: "QTY" }).click();
@@ -52,17 +52,21 @@ async function orderFromTirehub(
   quantity,
   username,
   password,
-  poNumber
+  poNumber,
+  pickup
 ) {
   await page.goto(url);
   await login(username, password, page);
-  await searchForStore(page, storeNumber) 
-  await searchForItem(page, itemNumber, quantity)
-  await insertQuantity(page, quantity) 
-  
-  
+  await searchForStore(page, storeNumber);
+  await searchForItem(page, itemNumber, quantity);
+  await insertQuantity(page, quantity);
+
   await page.getByPlaceholder("PO Number (optional)").click();
   await page.getByPlaceholder("PO Number (optional)").fill(poNumber);
+  if (pickup === "true") {
+    await page.locator("#shopping-cart-table").getByText("Will Call").click();
+    // await page.locator('div:nth-child(2) > .shipping-method > .shippig-method-radio').click();
+  }
   // try {
   //   await searchForItem(page, itemNumber, quantity);
   //   await searchForStore(page, storeNumber);
