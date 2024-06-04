@@ -7,4 +7,3 @@ win-unpacked/
 *.exe
 *.exe.blockmap
 
-dist/auto_order Setup 1.0.0.exe
