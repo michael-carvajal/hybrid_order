@@ -51,7 +51,7 @@ async function orderFromNTW(
   await page.getByPlaceholder("Part Number", { exact: true }).fill(itemNumber);
   await page.getByPlaceholder("Part Number", { exact: true }).press("Enter");
   await page.getByPlaceholder("Qty").click();
-  await page.getByPlaceholder("Qty").fill("2");
+  await page.getByPlaceholder("Qty").fill(quantity);
   await page.getByPlaceholder("Qty").press("Enter");
   await page.getByRole("link", { name: "  Checkout" }).click();
   // Checkout
