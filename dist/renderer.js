@@ -57,3 +57,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event listener for when the pickup is clicked
   pickup.addEventListener("change", updateIcons);
 });
+const darkModeToggle = document.getElementById("darkModeToggle");
+
+darkModeToggle.addEventListener("change", async () => {
+  const isDarkMode = darkModeToggle.checked;
+  document.body.classList.toggle("dark-mode", isDarkMode);
+  document.body.classList.toggle("light-mode", !isDarkMode);
+  await window.electronAPI.toggleDarkMode(isDarkMode);
+});
+
+window.electronAPI.onSetDarkMode((isDarkMode) => {
+  darkModeToggle.checked = isDarkMode;
+  document.body.classList.toggle("dark-mode", isDarkMode);
+  document.body.classList.toggle("light-mode", !isDarkMode);
+});

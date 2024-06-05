@@ -1,11 +1,44 @@
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.light-mode {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+body.dark-mode {
+  background-color: #212529;
+  color: #f8f9fa;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 6px;
   max-width: 20rem;
   margin: 10px auto;
+  background-color: inherit;
+  color: inherit;
 }
 
 #submit {
   margin-top: 36px;
+}
+
+label, .form-control, .form-select, .form-check-input {
+  background-color: inherit;
+  color: inherit;
+}
+
+.form-check-label {
+  margin-bottom: 10px;
+}
+
+#darkModeToggle {
+  margin-left: 10px;
+}
+
+#order-form .form-check-label, #order-form .form-check-input {
+  cursor: pointer;
 }
