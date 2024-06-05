@@ -23,10 +23,13 @@ form {
 }
 
 #submit {
-  margin-top: 36px;
+  margin-top: 28px;
 }
 
-label, .form-control, .form-select, .form-check-input {
+label,
+.form-control,
+.form-select,
+.form-check-input {
   background-color: inherit;
   color: inherit;
 }
@@ -35,10 +38,13 @@ label, .form-control, .form-select, .form-check-input {
   margin-bottom: 10px;
 }
 
-#darkModeToggle {
-  margin-left: 10px;
+#toggleLabel {
+  position: absolute;
+  bottom: 0;
+  right: 2em;
 }
 
-#order-form .form-check-label, #order-form .form-check-input {
+#order-form .form-check-label,
+#order-form .form-check-input {
   cursor: pointer;
 }
