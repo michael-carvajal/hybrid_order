@@ -63,11 +63,6 @@ darkModeToggle.addEventListener("change", async () => {
   const isDarkMode = darkModeToggle.checked;
   document.body.classList.toggle("dark-mode", isDarkMode);
   document.body.classList.toggle("light-mode", !isDarkMode);
-  await window.electronAPI.toggleDarkMode(isDarkMode);
 });
 
-window.electronAPI.onSetDarkMode((isDarkMode) => {
-  darkModeToggle.checked = isDarkMode;
-  document.body.classList.toggle("dark-mode", isDarkMode);
-  document.body.classList.toggle("light-mode", !isDarkMode);
-});
+
