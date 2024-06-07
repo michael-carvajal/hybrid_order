@@ -34,13 +34,28 @@ async function orderFromUSA(
   await page.goto(url);
   await login(username, password, page);
   await page.fill("#SelectDealerAutoComplete", storeNumber + " ");
-  // Wait for the div containing the store number to be visible
-  await page.waitForSelector(
-    `div.divSelectDealerResult >> text=${storeNumber}`
-  );
+  // Wait for the div elements containing the store numbers
+  await page.waitForSelector("div.divSelectDealerResult");
+  await page.waitForTimeout(500);
 
-  // Click on the div containing the store number
-  await page.click(`div.divSelectDealerResult >> text=${storeNumber}`);
+  // Use page.evaluate to find and click the exact store number
+  await page.evaluate((storeNumber) => {
+    // Get all divs with the class 'divSelectDealerResult'
+    const divs = document.querySelectorAll("div.divSelectDealerResult");
+    // Convert NodeList to Array and find the exact match 
+    const exactDiv = Array.from(divs).find((div) => {
+      const text = div.textContent || div.innerText;
+      const regex = new RegExp(`^${storeNumber}(?=\\s|$)`);
+      return regex.test(text.trim());
+    });
+
+    // Click on the exact match if found
+    if (exactDiv) {
+      exactDiv.click();
+    } else {
+      throw new Error(`Store number ${storeNumber} not found`);
+    }
+  }, storeNumber);
 
   await searchForItem(page, itemNumber, quantity);
   await page.fill("#inputPurchaseOrder", poNumber);
