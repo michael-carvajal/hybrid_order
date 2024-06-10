@@ -29,7 +29,10 @@ async function orderFromKAndM(
 ) {
   await page.goto(url);
   await login(username, password, page);
-  await page.locator("#custSearch").fill(storeNumber + " PR");
+  const storeCode = getStoreId(storeNumber);
+  const stores = await page.getByText(storeCode).all();
+  console.log(stores);
+
   await page.getByLabel("Part Number").click();
   await page.getByLabel("Part Number").fill("212290");
   await page.getByLabel("Part Number").press("Enter");
