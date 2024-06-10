@@ -30,18 +30,17 @@ async function orderFromKAndM(
   await page.goto(url);
   await login(username, password, page);
   const storeCode = getStoreId(storeNumber);
-  const stores = await page.getByRole("link").all();
-  // await stores[0].click()
   await page.getByRole("button", { name: "MAVIS #" }).hover();
   await page.getByRole("textbox", { name: "Search..." }).fill(storeCode);
-  // await page.getByRole("textbox", { name: "Search..." }).type(" "); extra space
   const storeLinks = await page.locator(`text=/${storeCode}/i`).all();
   await storeLinks[0].click();
-  console.log(stores);
 
-  // await page.getByLabel("Part Number").click();
-  // await page.getByLabel("Part Number").fill("212290");
-  // await page.getByLabel("Part Number").press("Enter");
+  await page.waitForTimeout(500);
+  await page.getByLabel("Part Number").fill(itemNumber);
+  await page.keyboard.press("Enter");
+  await page.locator("#tireSearchTable .cartContainer .qty.m-1").fill(quantity);
+  await page.keyboard.press("Enter");
+  await page.locator("#poNum").fill(poNumber)
 }
 
 module.exports = orderFromKAndM;
