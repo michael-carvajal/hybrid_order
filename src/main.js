@@ -8,7 +8,7 @@ const orderFromMFI = require("./mfi/index.js");
 const orderFromUSA = require("./usa/index.js");
 const orderFromNTW = require("./ntw/index.js");
 const orderFromTirehub = require("./tirehub/index.js");
-
+const orderFromKAndM = require("./k&m/index.js");
 (async () => {
   const contextMenu = (await import("electron-context-menu")).default;
 
@@ -146,6 +146,22 @@ ipcMain.handle("run-automation", async (event, args) => {
       username = decryptedValues.TIREHUB_USERNAME;
       password = decryptedValues.TIREHUB_PASSWORD;
       await orderFromTirehub(
+        page,
+        websiteUrl,
+        storeNumber,
+        itemNumber,
+        quantity,
+        username,
+        password,
+        poNumber,
+        pickup
+      );
+      break;
+    case "K&M":
+      websiteUrl = decryptedValues.KANDM_URL;
+      username = decryptedValues.KANDM_USERNAME;
+      password = decryptedValues.KANDM_PASSWORD;
+      await orderFromKAndM(
         page,
         websiteUrl,
         storeNumber,
