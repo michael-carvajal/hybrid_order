@@ -35,12 +35,13 @@ async function orderFromKAndM(
   const storeLinks = await page.locator(`text=/${storeCode}/i`).all();
   await storeLinks[0].click();
 
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(1000);
   await page.getByLabel("Part Number").fill(itemNumber);
   await page.keyboard.press("Enter");
+  await page.waitForTimeout(1000);
   await page.locator("#tireSearchTable .cartContainer .qty.m-1").fill(quantity);
   await page.keyboard.press("Enter");
-  await page.locator("#poNum").fill(poNumber)
+  await page.locator("#poNum").fill(poNumber);
 }
 
 module.exports = orderFromKAndM;
