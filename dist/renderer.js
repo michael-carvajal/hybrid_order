@@ -11,7 +11,9 @@ document
     const quantity = document.getElementById("quantity").value.trim();
     const pickup = document.getElementById("pickup").value;
     const errors = document.querySelector("#errors");
-
+    if (!errors.classList.contains("hidden")) {
+      errors.classList.toggle("hidden");
+    }
     const runningErrors = await window.electronAPI.runAutomation({
       vendor,
       storeNumber,
@@ -36,7 +38,7 @@ document
     truckIcon.style.display = "inline";
     personIcon.style.display = "none";
     errors.innerText = "";
-    errors.classList.toggle("hidden")
+    errors.classList.toggle("hidden");
     console.log("reset button cliked");
     await window.electronAPI.resetAutomation();
   });
