@@ -22,7 +22,7 @@ document
     });
 
     if (runningErrors.length > 0) {
-      errors.classList.remove("hidden");
+      errors.classList.toggle("hidden");
       errors.innerText = runningErrors[0];
     }
   });
@@ -35,6 +35,8 @@ document
     pickup.value = "false";
     truckIcon.style.display = "inline";
     personIcon.style.display = "none";
+    errors.innerText = "";
+    errors.classList.toggle("hidden")
     console.log("reset button cliked");
     await window.electronAPI.resetAutomation();
   });
