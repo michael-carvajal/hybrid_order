@@ -36,6 +36,9 @@ async function orderFromATD(
   let storeId, errors;
   try {
     storeId = await getStoreId(storeNumber);
+    if (!storeId) {
+      return ["Store Cannot be found"]
+    }
     //   console.log(storeId);
     await page.fill("#select-location", storeId);
     await page.click("#btn-continue");
@@ -59,8 +62,7 @@ async function orderFromATD(
     console.log(error);
   }
 
-  errors = ["there are errors"]
-  return errors
+
 }
 
 module.exports = orderFromATD;

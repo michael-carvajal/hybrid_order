@@ -11,7 +11,9 @@ body.dark-mode {
   background-color: #212529;
   color: #f8f9fa;
 }
-
+.hidden {
+  display: none;
+}
 form {
   display: flex;
   flex-direction: column;

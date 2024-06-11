@@ -11,9 +11,8 @@ document
     const quantity = document.getElementById("quantity").value.trim();
     const pickup = document.getElementById("pickup").value;
     const errors = document.querySelector("#errors");
-    
 
-   const runningErrors =  await window.electronAPI.runAutomation({
+    const runningErrors = await window.electronAPI.runAutomation({
       vendor,
       storeNumber,
       itemNumber,
@@ -23,6 +22,7 @@ document
     });
 
     if (runningErrors.length > 0) {
+      errors.classList.remove("hidden");
       errors.innerText = runningErrors[0];
     }
   });
@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const pickup = document.getElementById("pickup");
   const truckIcon = document.getElementById("truckIcon");
   const personIcon = document.getElementById("personIcon");
+  const errors = document.querySelector("#errors");
+
+  errors.classList.toggle("hidden");
 
   function updateIcons() {
     if (pickup.checked) {
@@ -70,4 +73,3 @@ darkModeToggle.addEventListener("change", async () => {
   document.body.classList.toggle("dark-mode", isDarkMode);
   document.body.classList.toggle("light-mode", !isDarkMode);
 });
-
