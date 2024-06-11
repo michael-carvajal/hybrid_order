@@ -10,8 +10,10 @@ document
     const itemNumber = document.getElementById("itemNumber").value.trim();
     const quantity = document.getElementById("quantity").value.trim();
     const pickup = document.getElementById("pickup").value;
+    const errors = document.querySelector("#errors");
+    
 
-    await window.electronAPI.runAutomation({
+   const runningErrors =  await window.electronAPI.runAutomation({
       vendor,
       storeNumber,
       itemNumber,
@@ -19,6 +21,10 @@ document
       quantity,
       pickup,
     });
+
+    if (runningErrors.length > 0) {
+      errors.innerText = runningErrors[0];
+    }
   });
 
 document
@@ -64,5 +70,4 @@ darkModeToggle.addEventListener("change", async () => {
   document.body.classList.toggle("dark-mode", isDarkMode);
   document.body.classList.toggle("light-mode", !isDarkMode);
 });
-
 

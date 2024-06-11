@@ -74,14 +74,14 @@ ipcMain.handle("run-automation", async (event, args) => {
   const decryptedValues = decryptHashedValues(hashedData, iv, key);
 
   const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
-  let websiteUrl, username, password;
+  let websiteUrl, username, password, errors;
 
   switch (vendor) {
     case "ATD":
       websiteUrl = decryptedValues.ATD_URL;
       username = decryptedValues.ATD_USERNAME;
       password = decryptedValues.ATD_PASSWORD;
-      await orderFromATD(
+      errors = await orderFromATD(
         page,
         websiteUrl,
         storeNumber,
@@ -92,6 +92,9 @@ ipcMain.handle("run-automation", async (event, args) => {
         poNumber,
         pickup
       );
+      if (errors.length > 0) {
+        return errors
+      }
       break;
     case "MFI":
       websiteUrl = decryptedValues.MFI_URL;

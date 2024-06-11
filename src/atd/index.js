@@ -33,7 +33,7 @@ async function orderFromATD(
 ) {
   await page.goto(url);
   await login(username, password, page);
-  let storeId;
+  let storeId, errors;
   try {
     storeId = await getStoreId(storeNumber);
     //   console.log(storeId);
@@ -58,6 +58,9 @@ async function orderFromATD(
   } catch (error) {
     console.log(error);
   }
+
+  errors = ["there are errors"]
+  return errors
 }
 
 module.exports = orderFromATD;
