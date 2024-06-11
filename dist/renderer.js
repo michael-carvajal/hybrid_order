@@ -37,8 +37,11 @@ document
     pickup.value = "false";
     truckIcon.style.display = "inline";
     personIcon.style.display = "none";
+    if (!errors.classList.contains("hidden")) {
+      errors.classList.toggle("hidden");
+    }
     errors.innerText = "";
-    errors.classList.toggle("hidden");
+
     console.log("reset button cliked");
     await window.electronAPI.resetAutomation();
   });
