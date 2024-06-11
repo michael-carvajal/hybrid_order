@@ -11,13 +11,15 @@ async function login(username, password, page) {
 }
 
 async function searchForItem(page, itemNumber, quantity) {
-  await page.fill("#global-search-input", itemNumber);
-  await page.click("#global-search-button");
-  await page.getByRole("textbox", { name: "Qty" }).fill(quantity);
-  //   console.log("we found qty");
-  const addToCart = await page.getByText(" Add to cart ").all();
-  await addToCart[1].click();
-  //   console.log("add to cart");
+  try {
+    await page.fill("#global-search-input", itemNumber);
+    await page.click("#global-search-button");
+    await page.getByRole("textbox", { name: "Qty" }).fill(quantity);
+    const addToCart = await page.getByText(" Add to cart ").all();
+    await addToCart[1].click();
+  } catch (error) {
+    return ["Item not found"];
+  }
 }
 
 async function orderFromATD(
@@ -37,13 +39,17 @@ async function orderFromATD(
   try {
     storeId = await getStoreId(storeNumber);
     if (!storeId) {
-      return ["Store Cannot be found"]
+      return ["Store Cannot be found"];
     }
     //   console.log(storeId);
     await page.fill("#select-location", storeId);
     await page.click("#btn-continue");
 
-    await searchForItem(page, itemNumber, quantity);
+    const itemError = await searchForItem(page, itemNumber, quantity);
+    if (itemError) {
+      return itemError;
+    }
+
     await page.fill("#customerPO", poNumber);
     if (pickup === "true") {
       await page.getByText("Customer Pickup").click();
@@ -61,8 +67,6 @@ async function orderFromATD(
   } catch (error) {
     console.log(error);
   }
-
-
 }
 
 module.exports = orderFromATD;
