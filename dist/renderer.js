@@ -28,7 +28,7 @@ document
       pickup,
     });
     console.log(response);
-    if (response.error) {
+    if (response.length === 1) {
       errors.classList.toggle("hidden");
       errors.innerText = response[0];
     } else {
