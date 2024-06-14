@@ -39,7 +39,7 @@ async function orderFromATD(
   try {
     storeId = await getStoreId(storeNumber);
     if (!storeId) {
-      return ["Store cannot be found"];
+      return { error: ["Store cannot be found"] };
     }
     //   console.log(storeId);
     await page.fill("#select-location", storeId);
@@ -47,15 +47,13 @@ async function orderFromATD(
 
     const itemError = await searchForItem(page, itemNumber, quantity);
     if (itemError) {
-      return itemError;
+      return { error: itemError };
     }
 
     await page.fill("#customerPO", poNumber);
     if (pickup === "true") {
       await page.getByText("Customer Pickup").click();
-    } else {
     }
-
     // Wait for the confirmation page to load
     await page.waitForSelector(".order-confirmation-message strong"); // Replace with the actual selector for the confirmation number
 
@@ -63,7 +61,13 @@ async function orderFromATD(
     const confirmationNumber = await page.textContent(
       ".order-confirmation-message strong"
     ); // Replace with the actual selector for the confirmation number
-    console.log(confirmationNumber);
+    const confNumParsed = confirmationNumber.split(" ").at(-1);
+    return {
+      confirmation: [
+        `Confirmation number # ${confNumParsed}`,
+        `ETA is 6/14/24`,
+      ],
+    };
   } catch (error) {
     console.log(error);
   }

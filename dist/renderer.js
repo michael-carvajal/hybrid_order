@@ -11,10 +11,15 @@ document
     const quantity = document.getElementById("quantity").value.trim();
     const pickup = document.getElementById("pickup").value;
     const errors = document.querySelector("#errors");
+    const confirmDetails = document.querySelector("#confirmation-details");
+
     if (!errors.classList.contains("hidden")) {
       errors.classList.toggle("hidden");
+    } else if (!confirmDetails.classList.contains("hidden")) {
+      confirmDetails.classList.toggle("hidden");
     }
-    const runningErrors = await window.electronAPI.runAutomation({
+
+    const response = await window.electronAPI.runAutomation({
       vendor,
       storeNumber,
       itemNumber,
@@ -22,10 +27,17 @@ document
       quantity,
       pickup,
     });
-
-    if (runningErrors.length > 0) {
+    console.log(response);
+    if (response.error) {
       errors.classList.toggle("hidden");
-      errors.innerText = runningErrors[0];
+      errors.innerText = response[0];
+    } else {
+      response.forEach((element) => {
+        const listEle = document.createElement("li");
+        listEle.innerText = element;
+        confirmDetails.appendChild(listEle);
+      });
+      confirmDetails.classList.toggle("hidden");
     }
   });
 
