@@ -51,8 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const truckIcon = document.getElementById("truckIcon");
   const personIcon = document.getElementById("personIcon");
   const errors = document.querySelector("#errors");
+  const confirmDetails = document.querySelector("#confirmation-details");
 
   errors.classList.toggle("hidden");
+  confirmDetails.classList.toggle("hidden");
 
   function updateIcons() {
     if (pickup.checked) {
