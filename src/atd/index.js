@@ -62,10 +62,11 @@ async function orderFromATD(
       ".order-confirmation-message strong"
     ); // Replace with the actual selector for the confirmation number
     const confNumParsed = confirmationNumber.split(" ").at(-1);
+    const eta = await page.textContent(".estDeliveryDate")
     return {
       confirmation: [
         `Confirmation number # ${confNumParsed}`,
-        `ETA is 6/14/24`,
+        `ETA is ${eta.trim()}`,
       ],
     };
   } catch (error) {
