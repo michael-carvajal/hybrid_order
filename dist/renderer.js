@@ -15,8 +15,10 @@ document
 
     if (!errors.classList.contains("hidden")) {
       errors.classList.toggle("hidden");
+      errors.innerText = "";
     } else if (!confirmDetails.classList.contains("hidden")) {
       confirmDetails.classList.toggle("hidden");
+      confirmDetails.innerText = "";
     }
 
     const response = await window.electronAPI.runAutomation({
@@ -53,7 +55,7 @@ document
       errors.classList.toggle("hidden");
     }
     errors.innerText = "";
-
+    confirmDetails.innerText = "";
     console.log("reset button cliked");
     await window.electronAPI.resetAutomation();
   });
