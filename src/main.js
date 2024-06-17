@@ -93,10 +93,9 @@ ipcMain.handle("run-automation", async (event, args) => {
         pickup
       );
       if (response.error) {
-        return response.error
+        return response.error;
       }
-      return response.confirmation
-      break;
+      return response.confirmation;
     case "MFI":
       websiteUrl = decryptedValues.MFI_URL;
       username = decryptedValues.MFI_USERNAME;
@@ -117,7 +116,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.USA_URL;
       username = decryptedValues.USA_USERNAME;
       password = decryptedValues.USA_PASSWORD;
-      await orderFromUSA(
+      const response = await orderFromUSA(
         page,
         websiteUrl,
         storeNumber,
@@ -128,7 +127,11 @@ ipcMain.handle("run-automation", async (event, args) => {
         poNumber,
         pickup
       );
-      break;
+
+      if (response.error) {
+        return response.error;
+      }
+      return response.confirmation;
     case "NTW":
       websiteUrl = decryptedValues.NTW_URL;
       username = decryptedValues.NTW_USERNAME;

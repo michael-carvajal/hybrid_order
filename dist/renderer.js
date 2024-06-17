@@ -29,7 +29,7 @@ document
       quantity,
       pickup,
     });
-    console.log(response);
+    console.log("response in rerender ========>", response);
     if (response.length === 1) {
       errors.classList.toggle("hidden");
       errors.innerText = response[0];
