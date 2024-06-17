@@ -116,7 +116,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.USA_URL;
       username = decryptedValues.USA_USERNAME;
       password = decryptedValues.USA_PASSWORD;
-      const response = await orderFromUSA(
+      response =await orderFromUSA(
         page,
         websiteUrl,
         storeNumber,
