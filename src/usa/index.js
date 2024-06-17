@@ -11,6 +11,12 @@ async function login(username, password, page) {
 async function searchForItem(page, itemNumber, quantity) {
   await page.fill("#tirepartField", itemNumber);
   await page.keyboard.press("Enter");
+  const emptySearchResults = await page.getByText("0 Results For:"); // Replace with the actual selector for the confirmation number
+  if (emptySearchResults) {
+    console.log(emptySearchResults);
+    throw new Error(`Cannot find item #${itemNumber}`);
+
+  }
   await page.getByText(/Primary Warehouse*/i).click();
   await page.keyboard.press("Tab");
   await page.keyboard.press("Tab");
@@ -66,7 +72,7 @@ async function orderFromUSA(
       console.log("storeError inside if statement in USA index ========>", storeError);
       throw new Error(storeError);
     }
-
+    
     await searchForItem(page, itemNumber, quantity);
     await page.fill("#inputPurchaseOrder", poNumber);
     if (pickup === "true") {
