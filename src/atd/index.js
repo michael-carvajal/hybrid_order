@@ -66,7 +66,7 @@ async function orderFromATD(
     return {
       confirmation: [
         `Confirmation number # ${confNumParsed}`,
-        `ETA is ${eta.trim()}`,
+        pickup === "true" ? "Order set for will call" : `ETA is ${eta.trim()}`,
       ],
     };
   } catch (error) {

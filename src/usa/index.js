@@ -39,10 +39,10 @@ async function orderFromUSA(
   await page.waitForTimeout(500);
 
   // Use page.evaluate to find and click the exact store number
-  await page.evaluate((storeNumber) => {
+  const storeError =  await page.evaluate((storeNumber) => {
     // Get all divs with the class 'divSelectDealerResult'
     const divs = document.querySelectorAll("div.divSelectDealerResult");
-    // Convert NodeList to Array and find the exact match 
+    // Convert NodeList to Array and find the exact match
     const exactDiv = Array.from(divs).find((div) => {
       const text = div.textContent || div.innerText;
       const regex = new RegExp(`^${storeNumber}(?=\\s|$)`);
@@ -53,10 +53,13 @@ async function orderFromUSA(
     if (exactDiv) {
       exactDiv.click();
     } else {
-      throw new Error(`Store number ${storeNumber} not found`);
+      return [`Store ${storeNumber} could not be found`] ;
     }
   }, storeNumber);
-
+  console.log(storeError);
+  if (storeError.length === 1) {
+    return storeError;
+  }
   await searchForItem(page, itemNumber, quantity);
   await page.fill("#inputPurchaseOrder", poNumber);
   if (pickup === "true") {
