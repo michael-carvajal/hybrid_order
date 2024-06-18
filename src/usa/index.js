@@ -113,7 +113,7 @@ async function orderFromUSA(
     confirmation: [
       confirmationNumber,
       // pickup === "true" ? "Order set for will call" : `ETA is ${eta.trim()}`,
-      `Unit cost $ ${price.slice(1)} ${pickup === "true" && "- Order set for will call"}`,
+      `Unit cost $ ${price.slice(1)} ${pickup === "true" ? "- Order set for will call" : ""}`,
     ],
   };
 }
