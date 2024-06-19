@@ -1,4 +1,4 @@
-const { chromium } = require("playwright");
+const { chromium, firefox } = require("playwright");
 const crypto = require("crypto");
 const path = require("path");
 const { hashedData, iv, decryptHashedValues } = require("./hashedValues.js");
@@ -64,7 +64,9 @@ ipcMain.handle("run-automation", async (event, args) => {
     }
   }
 
-  browser = await chromium.launch({ headless: false });
+  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
+  const isTireRack = vendor === "TIRERACK" ? firefox : chromium;
+  browser = await isTireRack.launch({ headless: false });
   page = await browser.newPage();
 
   function deriveKey(password, salt, iterations, keylen) {
@@ -74,7 +76,6 @@ ipcMain.handle("run-automation", async (event, args) => {
   const key = deriveKey("juan_rocks_123", "salt", 100000, 32);
   const decryptedValues = decryptHashedValues(hashedData, iv, key);
 
-  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
   let websiteUrl, username, password, response;
 
   switch (vendor) {

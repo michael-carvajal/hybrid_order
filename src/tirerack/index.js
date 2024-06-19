@@ -20,30 +20,34 @@ async function orderFromTireRack(
   poNumber,
   pickup
 ) {
-  const zipCode = getZipCode();
+  const zipCode = getZipCode(storeNumber);
   await page.goto(url);
   await page.locator('input[name="customerID"]').fill("MavisCorp");
   await page.locator("#passText").fill("Mavistire52!");
   await page.keyboard.press("Enter");
   // await page.getByText("click here").click();
-  await page.getByText("Search Tires by Manufacturer Part #");
+  await page.waitForTimeout(2000)
   await page.goto(
     `https://www.tirerackwholesale.com/tires/TireSearchResults.jsp?Vnum=${itemNumber}&searchCriteria=partNum`
   );
   await page.getByText("Add To Cart").click();
+  await page.waitForTimeout(3000)
   await page.getByRole("link", { name: "Begin Checkout" }).click();
+  await page.waitForTimeout(3000)
   await page.goto(
     "https://www.tirerackwholesale.com/cart/WholesaleCorpSalesServlet?location=cart"
   );
+  await page.waitForTimeout(3000)
   await page
-    .getByRole("cell", { name: "Search by Store ZIP Code Go" })
-    .getByRole("textbox")
-    .fill(zipCode);
+  .getByRole("cell", { name: "Search by Store ZIP Code Go" })
+  .getByRole("textbox")
+  .fill(zipCode);
+  await page.waitForTimeout(3000)
   await page.goto(
     "https://www.tirerackwholesale.com/cart/WholesaleCorpSalesServlet?customerType=A&searchType=zipCode&location=cart&searchParam=10562"
   );
   await page.getByRole("radio").check();
-  await page.goto("https://www.tirerackwholesale.com/cart/SelectShipping.jsp");
+  await page.getByRole("button", {name : "Continue"}).click()
   await page.getByLabel("Ground Freight Carrier").check();
   await page.goto("https://www.tirerackwholesale.com/ssl/PaymentInfo.jsp");
   await page.getByLabel("Purchase Order #:").click();
