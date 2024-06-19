@@ -66,10 +66,9 @@ async function orderFromTireRack(
     }
   }, storeNumber);
 
-  await page.getByRole("radio").check();
   await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByLabel("Ground Freight Carrier").check();
-  await page.goto("https://www.tirerackwholesale.com/ssl/PaymentInfo.jsp");
+  // await page.getByLabel("Ground Freight Carrier").check();
+  // await page.goto("https://www.tirerackwholesale.com/ssl/PaymentInfo.jsp");
   await page.getByLabel("Purchase Order #:").fill(poNumber);
   await page.getByRole("combobox").selectOption("Zig");
 }
