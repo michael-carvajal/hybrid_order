@@ -189,13 +189,13 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.TIRERACK_URL;
       const storeInt = parseInt(storeNumber);
       if (storeInt < 1000) {
-        username = "MavisCorp";
+        username = decryptedValues.TIRERACK_USERNAME_MAVISCORP;
         password = decryptedValues.TIRERACK_PASSWORD_MAVISCORP;
       } else if (storeInt <= 1300) {
         username = decryptedValues.TIRERACK_USERNAME_UPPERCASE;
-        password = "A531157A";
+        password = decryptedValues.TIRERACK_PASSWORD_UPPERCASE;
       } else {
-        username = "a531156";
+        username = decryptedValues.TIRERACK_USERNAME_LOWERCASE;
         password = decryptedValues.TIRERACK_PASSWORD_LOWERCASE;
       }
       // TODO: change to order from tire rack below
