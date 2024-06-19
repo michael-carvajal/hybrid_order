@@ -9,6 +9,7 @@ const orderFromUSA = require("./usa/index.js");
 const orderFromNTW = require("./ntw/index.js");
 const orderFromTirehub = require("./tirehub/index.js");
 const orderFromKAndM = require("./k&m/index.js");
+const orderFromTireRack = require("./tirerack/index.js");
 (async () => {
   const contextMenu = (await import("electron-context-menu")).default;
 
@@ -172,6 +173,32 @@ ipcMain.handle("run-automation", async (event, args) => {
       username = decryptedValues.KANDM_USERNAME;
       password = decryptedValues.KANDM_PASSWORD;
       await orderFromKAndM(
+        page,
+        websiteUrl,
+        storeNumber,
+        itemNumber,
+        quantity,
+        username,
+        password,
+        poNumber,
+        pickup
+      );
+      break;
+    case "TIRERACK":
+      websiteUrl = decryptedValues.TIRERACK_URL;
+      const storeInt = parseInt(storeNumber);
+      if (storeInt < 1000) {
+        username = decryptedValues.TIRERACK_USERNAME_MAVISCORP;
+        password = decryptedValues.TIRERACK_PASSWORD_MAVISCORP;
+      } else if (store <= 1300) {
+        username = decryptedValues.TIRERACK_USERNAME_UPPERCASE;
+        password = decryptedValues.TIRERACK_PASSWORD_UPPERCASE;
+      } else {
+        username = decryptedValues.TIRERACK_USERNAME_LOWERCASE;
+        password = decryptedValues.TIRERACK_PASSWORD_LOWERCASE;
+      }
+      // TODO: change to order from tire rack below
+      await orderFromTireRack(
         page,
         websiteUrl,
         storeNumber,
