@@ -37,19 +37,20 @@ async function orderFromTireRack(
   await page.goto(
     `https://www.tirerackwholesale.com/cart/WholesaleCorpSalesServlet?customerType=A&searchType=zipCode&location=cart&searchParam=${zipCode}`
   );
-  // Wait for the div elements containing the store numbers
-  await page.waitForSelector(" table form table tbody tr");
-  await page.waitForTimeout(500);
+  // // Wait for the div elements containing the store numbers
+  // await page.waitForSelector(" table form table tbody tr");
+  // await page.waitForTimeout(500);
 
   const storeError = await page.evaluate((storeNumber) => {
     // Get all tr elements within the table
-    const rows = document.querySelectorAll("table form table tbody tr");
+    const rows = document.querySelectorAll("form table tbody tr");
+    console.log(rows);
 
     // Convert NodeList to Array and find the exact match
     const exactRow = Array.from(rows).find((row) => {
       const text = row.textContent || row.innerText;
       // Check if the row contains the string "- ${storeNumber}"
-      return text.includes(`- ${storeNumber}`);
+      return text.includes(` ${storeNumber}`);
     });
 
     // Click on the radio button if the row is found
@@ -65,7 +66,10 @@ async function orderFromTireRack(
       return `Store ${storeNumber} could not be found`;
     }
   }, storeNumber);
-
+  console.log(storeError);
+  if (storeError) {
+    return {error : [storeError]}
+  }
   await page.getByRole("button", { name: "Continue" }).click();
   // await page.getByLabel("Ground Freight Carrier").check();
   // await page.goto("https://www.tirerackwholesale.com/ssl/PaymentInfo.jsp");

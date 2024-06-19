@@ -199,7 +199,7 @@ ipcMain.handle("run-automation", async (event, args) => {
         password = decryptedValues.TIRERACK_PASSWORD_LOWERCASE;
       }
       // TODO: change to order from tire rack below
-      await orderFromTireRack(
+      response = await orderFromTireRack(
         page,
         websiteUrl,
         storeNumber,
@@ -210,7 +210,10 @@ ipcMain.handle("run-automation", async (event, args) => {
         poNumber,
         pickup
       );
-      break;
+      if (response.error) {
+        return response.error;
+      }
+      return response.confirmation;
     default:
       console.log("Invalid vendor. Please choose either 'ATD' or 'other'.");
       throw new Error("Invalid vendor");
