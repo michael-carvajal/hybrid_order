@@ -30,6 +30,7 @@ async function orderFromTireRack(
   await page.goto(
     `https://www.tirerackwholesale.com/tires/TireSearchResults.jsp?Vnum=${itemNumber}&searchCriteria=partNum`
   );
+  await page.locator("#i1_Qty0").selectOption(quantity);
   await page.getByText("Add To Cart").click();
   await page.getByRole("link", { name: "Begin Checkout" }).click();
   await page.goto(
