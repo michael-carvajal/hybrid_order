@@ -1,4 +1,4 @@
-const { chromium } = require("playwright");
+const { chromium, firefox } = require("playwright");
 const crypto = require("crypto");
 const path = require("path");
 const { hashedData, iv, decryptHashedValues } = require("./hashedValues.js");
@@ -9,6 +9,7 @@ const orderFromUSA = require("./usa/index.js");
 const orderFromNTW = require("./ntw/index.js");
 const orderFromTirehub = require("./tirehub/index.js");
 const orderFromKAndM = require("./k&m/index.js");
+const orderFromTireRack = require("./tirerack/index.js");
 (async () => {
   const contextMenu = (await import("electron-context-menu")).default;
 
@@ -63,7 +64,9 @@ ipcMain.handle("run-automation", async (event, args) => {
     }
   }
 
-  browser = await chromium.launch({ headless: false });
+  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
+  const isTireRack = vendor === "TIRERACK" ? firefox : chromium;
+  browser = await isTireRack.launch({ headless: false });
   page = await browser.newPage();
 
   function deriveKey(password, salt, iterations, keylen) {
@@ -73,7 +76,6 @@ ipcMain.handle("run-automation", async (event, args) => {
   const key = deriveKey("juan_rocks_123", "salt", 100000, 32);
   const decryptedValues = decryptHashedValues(hashedData, iv, key);
 
-  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
   let websiteUrl, username, password, response;
 
   switch (vendor) {
@@ -116,7 +118,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.USA_URL;
       username = decryptedValues.USA_USERNAME;
       password = decryptedValues.USA_PASSWORD;
-      response =await orderFromUSA(
+      response = await orderFromUSA(
         page,
         websiteUrl,
         storeNumber,
@@ -136,7 +138,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.NTW_URL;
       username = decryptedValues.NTW_USERNAME;
       password = decryptedValues.NTW_PASSWORD;
-      await orderFromNTW(
+      response = await orderFromNTW(
         page,
         websiteUrl,
         storeNumber,
@@ -147,7 +149,10 @@ ipcMain.handle("run-automation", async (event, args) => {
         poNumber,
         pickup
       );
-      break;
+      if (response.error) {
+        return response.error;
+      }
+      return response.confirmation;
     case "TIREHUB":
       websiteUrl = decryptedValues.TIREHUB_URL;
       username = decryptedValues.TIREHUB_USERNAME;
@@ -180,6 +185,35 @@ ipcMain.handle("run-automation", async (event, args) => {
         pickup
       );
       break;
+    case "TIRERACK":
+      websiteUrl = decryptedValues.TIRERACK_URL;
+      const storeInt = parseInt(storeNumber);
+      if (storeInt < 1000) {
+        username = decryptedValues.TIRERACK_USERNAME_MAVISCORP;
+        password = decryptedValues.TIRERACK_PASSWORD_MAVISCORP;
+      } else if (storeInt <= 1300) {
+        username = decryptedValues.TIRERACK_USERNAME_UPPERCASE;
+        password = decryptedValues.TIRERACK_PASSWORD_UPPERCASE;
+      } else {
+        username = decryptedValues.TIRERACK_USERNAME_LOWERCASE;
+        password = decryptedValues.TIRERACK_PASSWORD_LOWERCASE;
+      }
+      // TODO: change to order from tire rack below
+      response = await orderFromTireRack(
+        page,
+        websiteUrl,
+        storeNumber,
+        itemNumber,
+        quantity,
+        username,
+        password,
+        poNumber,
+        pickup
+      );
+      if (response.error) {
+        return response.error;
+      }
+      return response.confirmation;
     default:
       console.log("Invalid vendor. Please choose either 'ATD' or 'other'.");
       throw new Error("Invalid vendor");
