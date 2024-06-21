@@ -55,7 +55,9 @@ async function orderFromNTW(
   await page.getByPlaceholder("Qty").press("Enter");
   await page.getByRole("link", { name: "  Checkout" }).click();
   // Checkout
-  const price =  await page.textContent(`#items > tbody > tr.itemrow > td.cost.price.text-right`);
+  const price =  await page.textContent("#items > tbody > tr.itemrow > td.cost.price.text-right");
+  const eta =  await page.textContent("#deliveryOneDay > span:nth-child(1)");
+  
   await page.getByPlaceholder("purchase order").click();
   await page.getByPlaceholder("purchase order").fill(poNumber);
   if (pickup === "true") {
@@ -65,7 +67,7 @@ async function orderFromNTW(
   const netPrice =  await page.textContent(`#dlgOrderLinesTable > tr:nth-child(3) > td:nth-child(4)`);
   const unitCost = netPrice === "$0" ? netPrice : price
   console.log(" ntw price ======>",price);
-  return {confirmation : [`Order # ${confNums}`, `Unit Cost ${unitCost}`]}
+  return {confirmation : [`Order # ${confNums}`, `Unit Cost ${unitCost}`, eta]}
 
  }
 
