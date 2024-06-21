@@ -28,6 +28,9 @@ async function orderFromMFI(
   await login(username, password, page);
   const storeId = await getStoreId(storeNumber);
   console.log(storeId);
+  if (!storeId) {
+    return { error : [`Store ${storeNumber} not found`]}
+  }
   await page.fill("#cphBody_cphPageBody_txtCust", storeId);
   await page.keyboard.press("Enter");
   await page
