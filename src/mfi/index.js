@@ -40,13 +40,17 @@ async function orderFromMFI(
     .locator("#cHeaderLoggedIn_divReturnRequestDesktop + .other .cart.active")
     .click();
 
-
-    if (pickup === "true") {
-      await page.locator("#WillcallP").click()
-    }
+  if (pickup === "true") {
+    await page.locator("#WillcallP").click();
+  }
   await page.locator("#divCheckOut").click();
 
   await page.locator(".inner div span input").fill(poNumber);
+
+  const orderNumber = await page.textContent(
+    "text=Order Placed, Order Number:"
+  );
+  console.log(orderNumber);
 }
 
 module.exports = orderFromMFI;
