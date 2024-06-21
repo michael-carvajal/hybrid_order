@@ -24,6 +24,15 @@ form {
   color: inherit;
 }
 
+#error-cancel {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+#error-cancel:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
 #submit {
   margin-top: 28px;
 }

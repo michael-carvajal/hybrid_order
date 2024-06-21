@@ -31,8 +31,18 @@ document
     });
     console.log("response in rerender ========>", response);
     if (response.length === 1) {
+      const ele = document.createElement("div");
+      const errorCancel = document.createElement("div");
+      errorCancel.setAttribute("id", "error-cancel");
+      errorCancel.addEventListener("click", () => {
+        errors.classList.toggle("hidden");
+        errors.innerText = "";
+      });
+      errorCancel.innerText = "x";
+      ele.innerText = response[0];
+      errors.appendChild(errorCancel);
+      errors.appendChild(ele);
       errors.classList.toggle("hidden");
-      errors.innerText = response[0];
     } else {
       response.forEach((element) => {
         const listEle = document.createElement("li");
