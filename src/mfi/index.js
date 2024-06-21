@@ -51,6 +51,9 @@ async function orderFromMFI(
     "text=Order Placed, Order Number:"
   );
   console.log(orderNumber);
+
+
+  return {confirmation : [orderNumber.split(", ")[1], "ETA is 123"]}
 }
 
 module.exports = orderFromMFI;
