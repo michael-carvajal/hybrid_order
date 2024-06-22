@@ -39,15 +39,14 @@ async function orderFromMFI(
   await page.keyboard.press("Enter");
   let backordered;
   try {
-     backordered = await page.textContent(
+    backordered = await page.textContent(
       "#search_results > section > div.product_listing > div.column_3 > div.white > span",
       { timeout: 1000 }
     );
     if (backordered === "Backordered") {
       return { error: ["Item not available"] };
     }
-  } catch (error) {
-  }
+  } catch (error) {}
   await page.locator(".form_elements  span + input").fill(quantity);
   await page.getByRole("button", { name: "ADD TO CART " }).click();
   await page
@@ -65,8 +64,17 @@ async function orderFromMFI(
     "text=Order Placed, Order Number:"
   );
   console.log(orderNumber);
+  let price 
+  try {
+    price = await page.textContent(
+      "body > div.push_container > section.portal_content_block_receipt.container > div > form > div > table > tbody > tr.Items > td:nth-child(5)"
+    ,{timeout : 1000});
+  } catch (error) {
+    
+  }
+  console.log(price);
 
-  return { confirmation: [orderNumber.split(", ")[1]] };
+  return { confirmation: [orderNumber.split(", ")[1], (price ? `Unit cost ${price}` : "")]  };
 }
 
 module.exports = orderFromMFI;
