@@ -29,7 +29,7 @@ async function orderFromMFI(
   const storeId = await getStoreId(storeNumber);
   console.log(storeId);
   if (!storeId) {
-    return { error : [`Store ${storeNumber} not found`]}
+    return { error: [`Store ${storeNumber} not found`] };
   }
   await page.fill("#cphBody_cphPageBody_txtCust", storeId);
   await page.keyboard.press("Enter");
@@ -37,6 +37,17 @@ async function orderFromMFI(
     .getByRole("textbox", { name: "ENTER SEARCH CRITERIA" })
     .fill(itemNumber);
   await page.keyboard.press("Enter");
+  let backordered;
+  try {
+     backordered = await page.textContent(
+      "#search_results > section > div.product_listing > div.column_3 > div.white > span",
+      { timeout: 1000 }
+    );
+    if (backordered === "Backordered") {
+      return { error: ["Item not available"] };
+    }
+  } catch (error) {
+  }
   await page.locator(".form_elements  span + input").fill(quantity);
   await page.getByRole("button", { name: "ADD TO CART " }).click();
   await page
@@ -55,8 +66,7 @@ async function orderFromMFI(
   );
   console.log(orderNumber);
 
-
-  return {confirmation : [orderNumber.split(", ")[1]]}
+  return { confirmation: [orderNumber.split(", ")[1]] };
 }
 
 module.exports = orderFromMFI;
