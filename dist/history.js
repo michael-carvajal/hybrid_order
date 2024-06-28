@@ -19,6 +19,8 @@ window.addEventListener("load", (event) => {
     historyContainer.innerHTML = '';
     historyArray.forEach((historyItem, index) => {
       const historyDiv = document.createElement("div");
+      historyDiv.classList.add("alert")
+      historyDiv.classList.add("alert-primary")
       historyDiv.innerText = `History ${index + 1}: ${historyItem.eta}, ${historyItem.confirm}, Price ${historyItem.price}`;
       historyContainer.appendChild(historyDiv);
     });
