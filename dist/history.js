@@ -12,16 +12,27 @@ window.addEventListener("load", (event) => {
     }
     createHistoryDivs(historyState.history, historyContainer);
   
-    document.getElementById("add-history-btn").addEventListener("click", addHistoryItem);
+    document
+      .getElementById("add-history-btn")
+      .addEventListener("click", addHistoryItem);
   });
   
   const createHistoryDivs = (historyArray, historyContainer) => {
-    historyContainer.innerHTML = '';
-    historyArray.forEach((historyItem, index) => {
+    historyContainer.innerHTML = "";
+    historyArray.reverse().forEach((historyItem) => {
       const historyDiv = document.createElement("div");
-      historyDiv.classList.add("alert")
-      historyDiv.classList.add("alert-primary")
-      historyDiv.innerText = `History ${index + 1}: ${historyItem.eta}, ${historyItem.confirm}, Price ${historyItem.price}`;
+      historyDiv.classList.add("alert", "alert-primary");
+      
+      const confirmList = document.createElement("ul");
+      confirmList.style.listStyle = 'none'
+      Object.values(historyItem).forEach((attr) => {
+        console.log(attr);
+        const li = document.createElement("li");
+        li.innerText = attr;
+        confirmList.appendChild(li);
+      });
+  
+      historyDiv.appendChild(confirmList);
       historyContainer.appendChild(historyDiv);
     });
   };
