@@ -19,7 +19,7 @@ window.addEventListener("load", (event) => {
     historyContainer.innerHTML = '';
     historyArray.forEach((historyItem, index) => {
       const historyDiv = document.createElement("div");
-      historyDiv.innerText = `History ${index + 1}: ETA ${historyItem.eta}, Confirm ${historyItem.confirm}, Price ${historyItem.price}`;
+      historyDiv.innerText = `History ${index + 1}: ${historyItem.eta}, ${historyItem.confirm}, Price ${historyItem.price}`;
       historyContainer.appendChild(historyDiv);
     });
   };

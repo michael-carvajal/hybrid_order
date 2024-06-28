@@ -51,6 +51,17 @@ document
       });
       confirmDetails.classList.toggle("hidden");
     }
+    let historyState = localStorage.getItem("historyState");
+    if (!historyState) {
+      historyState = { history: [] };
+    } else {
+      historyState = JSON.parse(historyState);
+    }
+  
+    const newHistoryItem = { eta: response[1], confirm: response[0], price: 5678 };
+    historyState.history.push(newHistoryItem);
+    localStorage.setItem("historyState", JSON.stringify(historyState));
+
   });
 
 document
