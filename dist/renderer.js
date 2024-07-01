@@ -60,7 +60,7 @@ document
     }
     
 
-    historyState.history.push([...response, `QTY: ${quantity}`, getFormattedDateTime() ]);
+    historyState.history.push([...response, `Store: ${storeNumber} - QTY: ${quantity}`, getFormattedDateTime() ]);
     localStorage.setItem("historyState", JSON.stringify(historyState));
 
   });

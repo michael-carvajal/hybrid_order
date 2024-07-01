@@ -160,7 +160,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.TIREHUB_URL;
       username = decryptedValues.TIREHUB_USERNAME;
       password = decryptedValues.TIREHUB_PASSWORD;
-      await orderFromTirehub(
+      response = await orderFromTirehub(
         page,
         websiteUrl,
         storeNumber,
