@@ -67,24 +67,9 @@ async function orderFromTirehub(
     await page.locator("#shopping-cart-table").getByText("Will Call").click();
     // await page.locator('div:nth-child(2) > .shipping-method > .shippig-method-radio').click();
   }
-  // try {
-  //   await searchForItem(page, itemNumber, quantity);
-  //   await searchForStore(page, storeNumber);
-  //   await insertQuantity(page, quantity);
-
-  //   await page.locator(".primary-btn.medium").click();
-  //   await page.fill("#customerPO", poNumber);
-  //   // Wait for the confirmation page to load
-  //   await page.waitForSelector(".order-confirmation-message strong"); // Replace with the actual selector for the confirmation number
-
-  //   // Extract the confirmation number
-  //   const confirmationNumber = await page.textContent(
-  //     ".order-confirmation-message strong"
-  //   ); // Replace with the actual selector for the confirmation number
-  //   console.log(confirmationNumber);
-  // } catch (error) {
-  //   console.log(error);
-  // }
+  const orderNumber = await page.textContent(".order-number strong");
+  console.log("order number or tire hub ");
+  return { confirmation : [`Order # ${orderNumber}`]}
 }
 
 module.exports = orderFromTirehub;
