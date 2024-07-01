@@ -69,11 +69,11 @@ async function orderFromTirehub(
     // await page.locator('div:nth-child(2) > .shipping-method > .shippig-method-radio').click();
   }
   const orderNumber = await page.textContent(".order-number strong");
-  console.log("order number or tire hub ", orderNumber);
-  const isZeroPrice = cartPrice.indexOf("$0.00") > 0 ? "" : cartPrice.split("<br>")[1]
+  console.log("order number or tire hub ", orderNumber.split(""));
+  const isZeroPrice = cartPrice.indexOf("$0.00") > 0 ? "" : cartPrice
   return {
     confirmation: [
-      `Order # ${orderNumber}`,
+      `Order # ${orderNumber.split("\n")[1].trim()}`,
       isZeroPrice,
       pickup === "true" ? "Order set for pick up" : "",
     ],
