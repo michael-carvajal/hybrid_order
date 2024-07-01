@@ -43,6 +43,7 @@ document
       errors.appendChild(errorCancel);
       errors.appendChild(ele);
       errors.classList.toggle("hidden");
+      return
     } else {
       response.forEach((element) => {
         const listEle = document.createElement("li");
@@ -51,6 +52,17 @@ document
       });
       confirmDetails.classList.toggle("hidden");
     }
+    let historyState = localStorage.getItem("historyState");
+    if (!historyState) {
+      historyState = { history: [] };
+    } else {
+      historyState = JSON.parse(historyState);
+    }
+    
+
+    historyState.history.push([...response, `QTY: ${quantity}`, getFormattedDateTime() ]);
+    localStorage.setItem("historyState", JSON.stringify(historyState));
+
   });
 
 document
@@ -106,3 +118,25 @@ darkModeToggle.addEventListener("change", async () => {
   document.body.classList.toggle("dark-mode", isDarkMode);
   document.body.classList.toggle("light-mode", !isDarkMode);
 });
+
+
+function getFormattedDateTime() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+
+  const hours = now.getHours();
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const formattedHours = hours % 12 || 12; // Convert to 12-hour format, with 12 instead of 0
+
+  const formattedDate = `${month}/${day}/${year}`;
+  const formattedTime = `${formattedHours}:${minutes}:${seconds} ${ampm}`;
+
+  return `${formattedDate} ${formattedTime}`;
+}
+

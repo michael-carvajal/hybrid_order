@@ -102,7 +102,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.MFI_URL;
       username = decryptedValues.MFI_USERNAME;
       password = decryptedValues.MFI_PASSWORD;
-      await orderFromMFI(
+      response = await orderFromMFI(
         page,
         websiteUrl,
         storeNumber,
@@ -113,7 +113,10 @@ ipcMain.handle("run-automation", async (event, args) => {
         poNumber,
         pickup
       );
-      break;
+      if (response.error) {
+        return response.error;
+      }
+      return response.confirmation;
     case "USA":
       websiteUrl = decryptedValues.USA_URL;
       username = decryptedValues.USA_USERNAME;
