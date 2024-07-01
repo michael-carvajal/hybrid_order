@@ -60,6 +60,7 @@ async function orderFromTirehub(
   await searchForStore(page, storeNumber);
   await searchForItem(page, itemNumber, quantity);
   await insertQuantity(page, quantity);
+  const cartPrice = await page.textContent(".cart-price");
 
   await page.getByPlaceholder("PO Number (optional)").click();
   await page.getByPlaceholder("PO Number (optional)").fill(poNumber);
@@ -68,8 +69,15 @@ async function orderFromTirehub(
     // await page.locator('div:nth-child(2) > .shipping-method > .shippig-method-radio').click();
   }
   const orderNumber = await page.textContent(".order-number strong");
-  console.log("order number or tire hub ");
-  return { confirmation : [`Order # ${orderNumber}`]}
+  console.log("order number or tire hub ", orderNumber);
+  const isZeroPrice = cartPrice.indexOf("$0.00") > 0 ? "" : cartPrice.split("<br>")[1]
+  return {
+    confirmation: [
+      `Order # ${orderNumber}`,
+      isZeroPrice,
+      pickup === "true" ? "Order set for pick up" : "",
+    ],
+  };
 }
 
 module.exports = orderFromTirehub;
