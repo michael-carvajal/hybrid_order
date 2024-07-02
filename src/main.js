@@ -160,7 +160,7 @@ ipcMain.handle("run-automation", async (event, args) => {
       websiteUrl = decryptedValues.TIREHUB_URL;
       username = decryptedValues.TIREHUB_USERNAME;
       password = decryptedValues.TIREHUB_PASSWORD;
-      await orderFromTirehub(
+      response = await orderFromTirehub(
         page,
         websiteUrl,
         storeNumber,
@@ -171,7 +171,10 @@ ipcMain.handle("run-automation", async (event, args) => {
         poNumber,
         pickup
       );
-      break;
+      if (response.error) {
+        return response.error;
+      }
+      return response.confirmation;
     case "K&M":
       websiteUrl = decryptedValues.KANDM_URL;
       username = decryptedValues.KANDM_USERNAME;

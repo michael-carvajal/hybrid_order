@@ -67,7 +67,7 @@ async function orderFromNTW(
   const netPrice =  await page.textContent(`#dlgOrderLinesTable > tr:nth-child(3) > td:nth-child(4)`);
   const unitCost = netPrice === "$0" ? netPrice : price
   console.log(" ntw price ======>",price);
-  return {confirmation : [`Order # ${confNums}`, `Unit Cost ${unitCost}`, eta]}
+  return {confirmation : [`Order # ${confNums}`, `Unit Cost ${unitCost}`, pickup === "true" ? "Order set for pick up" : eta]}
 
  }
 
