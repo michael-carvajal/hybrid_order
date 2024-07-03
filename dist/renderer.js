@@ -43,7 +43,7 @@ document
       errors.appendChild(errorCancel);
       errors.appendChild(ele);
       errors.classList.toggle("hidden");
-      return
+      return;
     } else {
       response.forEach((element) => {
         const listEle = document.createElement("li");
@@ -58,11 +58,13 @@ document
     } else {
       historyState = JSON.parse(historyState);
     }
-    
 
-    historyState.history.push([...response, `Store: ${storeNumber} - QTY: ${quantity} - ${vendor}`, getFormattedDateTime() ]);
+    historyState.history.push([
+      ...response,
+      `Store: ${storeNumber} - QTY: ${quantity} - ${vendor}`,
+      getFormattedDateTime(),
+    ]);
     localStorage.setItem("historyState", JSON.stringify(historyState));
-
   });
 
 document
@@ -110,6 +112,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add event listener for when the pickup is clicked
   pickup.addEventListener("change", updateIcons);
+  const tireRackAccount = document.getElementById("tirerackAccount");
+  document.getElementById("vendor").addEventListener("change", (e) => {
+    console.log("vendor change   ", e.target.value);
+    if (e.target.value === "TIRERACK") {
+      tireRackAccount.style.display = "flex"
+    }else {
+      tireRackAccount.style.display = "none"
+    }
+  });
 });
 const darkModeToggle = document.getElementById("darkModeToggle");
 
@@ -119,19 +130,18 @@ darkModeToggle.addEventListener("change", async () => {
   document.body.classList.toggle("light-mode", !isDarkMode);
 });
 
-
 function getFormattedDateTime() {
   const now = new Date();
 
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0');
-  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
 
   const hours = now.getHours();
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, "0");
+  const seconds = String(now.getSeconds()).padStart(2, "0");
 
-  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const ampm = hours >= 12 ? "PM" : "AM";
   const formattedHours = hours % 12 || 12; // Convert to 12-hour format, with 12 instead of 0
 
   const formattedDate = `${month}/${day}/${year}`;
@@ -139,4 +149,3 @@ function getFormattedDateTime() {
 
   return `${formattedDate} ${formattedTime}`;
 }
-
