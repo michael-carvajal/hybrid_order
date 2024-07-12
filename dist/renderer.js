@@ -12,6 +12,7 @@ document
     const pickup = document.getElementById("pickup").value;
     const errors = document.querySelector("#errors");
     const confirmDetails = document.querySelector("#confirmation-details");
+    const tireRackAccount = document.querySelector('input[name="tirerackAccount"]:checked').value;
 
     if (!errors.classList.contains("hidden")) {
       errors.classList.toggle("hidden");
