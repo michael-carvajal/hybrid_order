@@ -9,3 +9,8 @@ header {
     justify-content: space-between;
     align-items: center;
 }
+#confirmModal {
+    position: absolute;
+    top: 50%;
+    height: 300px;
+}
