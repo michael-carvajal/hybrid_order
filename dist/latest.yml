@@ -1,8 +1,8 @@
-version: 1.1.3
+version: 1.3.0
 files:
-  - url: hybrid_order-Setup-1.1.3.exe
-    sha512: PcFQA5kOwdJuS0Nl9DAj9zjjBgtFFRamsFC6+hEqCzg49MOD3vV/cj5epikcuLc3c60o+7LE0ffAlbhf8b/wmg==
-    size: 1300795961
-path: hybrid_order-Setup-1.1.3.exe
-sha512: PcFQA5kOwdJuS0Nl9DAj9zjjBgtFFRamsFC6+hEqCzg49MOD3vV/cj5epikcuLc3c60o+7LE0ffAlbhf8b/wmg==
-releaseDate: '2024-06-18T16:53:56.709Z'
+  - url: hybrid_order-Setup-1.3.0.exe
+    sha512: ntmfuDaOR2XsS44noETy5yGPLqtMuNwkDuXd3tG1hVD04OCUJJHVCuC2/WpwSZ7QMjDu7BMSedYq4SRN/v7Daw==
+    size: 162153249
+path: hybrid_order-Setup-1.3.0.exe
+sha512: ntmfuDaOR2XsS44noETy5yGPLqtMuNwkDuXd3tG1hVD04OCUJJHVCuC2/WpwSZ7QMjDu7BMSedYq4SRN/v7Daw==
+releaseDate: '2024-07-15T15:39:03.313Z'
