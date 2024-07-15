@@ -1,5 +1,3 @@
-// history.js
-
 window.addEventListener("load", (event) => {
   console.log("page is fully loaded");
   const historyContainer = document.getElementById("history-container");
@@ -10,12 +8,15 @@ window.addEventListener("load", (event) => {
   } else {
     historyState = JSON.parse(historyState);
   }
-  console.log("line 13 ====> ", historyState);
   createHistoryDivs(historyState.history, historyContainer);
 
   document
-    .getElementById("add-history-btn")
-    .addEventListener("click", addHistoryItem);
+    .getElementById("clear-history-btn")
+    .addEventListener("click", showConfirmModal);
+
+  document
+    .getElementById("confirm-clear-history")
+    .addEventListener("click", clearHistory);
 });
 
 const createHistoryDivs = (historyArray, historyContainer) => {
@@ -38,7 +39,6 @@ const createHistoryDivs = (historyArray, historyContainer) => {
     historyContainer.appendChild(historyDiv);
   });
 };
-
 const addHistoryItem = () => {
   let historyState = localStorage.getItem("historyState");
   if (!historyState) {
@@ -54,3 +54,27 @@ const addHistoryItem = () => {
   const historyContainer = document.getElementById("history-container");
   createHistoryDivs(historyState.history, historyContainer);
 };
+
+const closeModal = () => {
+  const confirmModal = document.getElementById("confirmModal");
+  confirmModal.style.display = "none";
+  confirmModal.style.opacity = 0;
+};
+const showConfirmModal = () => {
+  const confirmModal = document.getElementById("confirmModal");
+  confirmModal.style.display = "block";
+  confirmModal.style.opacity = 100;
+  // confirmModal.show();
+};
+const clearHistory = () => {
+  const confirmModal = document.getElementById("confirmModal");
+  confirmModal.style.display = "none";
+  confirmModal.style.opacity = 0;
+
+  localStorage.removeItem("historyState");
+  const historyContainer = document.getElementById("history-container");
+  createHistoryDivs([], historyContainer);
+};
+
+document.getElementById("close-modal-cancel").addEventListener('click', closeModal);
+document.getElementById("close-modal-x").addEventListener('click', closeModal);
