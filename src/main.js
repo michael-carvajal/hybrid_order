@@ -64,7 +64,7 @@ ipcMain.handle("run-automation", async (event, args) => {
     }
   }
 
-  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup } = args;
+  const { vendor, storeNumber, itemNumber, poNumber, quantity, pickup, tireRackAccount } = args;
   const isTireRack = vendor === "TIRERACK" ? firefox : chromium;
   browser = await isTireRack.launch({ headless: false });
   page = await browser.newPage();
@@ -193,14 +193,14 @@ ipcMain.handle("run-automation", async (event, args) => {
       break;
     case "TIRERACK":
       websiteUrl = decryptedValues.TIRERACK_URL;
-      const storeInt = parseInt(storeNumber);
-      if (storeInt < 1000) {
+      // const storeInt = parseInt(storeNumber);
+      if (tireRackAccount === "MavisCorp") {
         username = decryptedValues.TIRERACK_USERNAME_MAVISCORP;
         password = decryptedValues.TIRERACK_PASSWORD_MAVISCORP;
-      } else if (storeInt <= 1300) {
+      } else if (tireRackAccount === "A531157") {
         username = decryptedValues.TIRERACK_USERNAME_UPPERCASE;
         password = decryptedValues.TIRERACK_PASSWORD_UPPERCASE;
-      } else {
+      } else if(tireRackAccount === "a531156"){
         username = decryptedValues.TIRERACK_USERNAME_LOWERCASE;
         password = decryptedValues.TIRERACK_PASSWORD_LOWERCASE;
       }
